@@ -1,5 +1,6 @@
 package co.edu.uco.burstcar.paquete.dominio.puerto;
 
+import co.edu.uco.burstcar.paquete.dominio.dto.PesoActualizacionDto;
 import co.edu.uco.burstcar.paquete.dominio.modelo.Peso;
 
 import java.util.UUID;
@@ -7,6 +8,6 @@ import java.util.UUID;
 public interface RepositorioPeso {
 
     UUID registrarPesoContenido(Peso peso);
-    void actualizarPesoContenido(Peso peso);
+    void actualizarPesoContenido(PesoActualizacionDto dto, UUID idPeso);
     Peso consultarPeso(UUID identificador);
 }

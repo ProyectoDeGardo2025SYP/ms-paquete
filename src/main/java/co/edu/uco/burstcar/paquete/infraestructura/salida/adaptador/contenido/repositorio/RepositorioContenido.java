@@ -1,11 +1,13 @@
 package co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.contenido.repositorio;
 
+import co.edu.uco.burstcar.paquete.dominio.dto.ContenidoActualizacionDto;
 import co.edu.uco.burstcar.paquete.dominio.modelo.Contenido;
 import co.edu.uco.burstcar.paquete.dominio.modelo.MonedaPaquete;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.contenido.entidad.EntidadContenido;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.contenido.repositorio.jpa.RepositoryContenidoJpa;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.monedapaquete.entidad.EntidadMonedaPaquete;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.monedapaquete.repositorio.jpa.RepositorioMonedaPaqueteJpa;
+
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
@@ -33,9 +35,18 @@ public class RepositorioContenido implements co.edu.uco.burstcar.paquete.dominio
     }
 
     @Override
-    public void actualizarInformacionContenido(Contenido contenido) {
-
+    public void actualizarInformacionContenido(ContenidoActualizacionDto dto, UUID idContendio) {
+        EntidadContenido entidadContenido = this.repositoryContenidoJpa.findById(idContendio).orElse(null);
+        EntidadMonedaPaquete entidadMonedaPaquete = this.repositorioMonedaPaqueteJpa.findByNombre(dto.getMonedaPaquete());
+        if (entidadContenido != null){
+            entidadContenido.setDescripcion(dto.getDescripcion());
+            entidadContenido.setFragil(dto.getFragil());
+            entidadContenido.setValorAproximado(dto.getValorAproximado());
+            entidadContenido.setEntidadMonedaPaquete(entidadMonedaPaquete);
+            this.repositoryContenidoJpa.save(entidadContenido);
+        }
     }
+
 
     @Override
     public Contenido consultarContenido(UUID identificador) {

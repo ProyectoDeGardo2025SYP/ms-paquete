@@ -1,5 +1,6 @@
 package co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.paquete.repositorio;
 
+import co.edu.uco.burstcar.paquete.dominio.dto.PaqueteActualizacionDto;
 import co.edu.uco.burstcar.paquete.dominio.modelo.*;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.contenido.entidad.EntidadContenido;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.contenido.repositorio.jpa.RepositoryContenidoJpa;
@@ -44,12 +45,21 @@ public class RepositorioPaquete implements co.edu.uco.burstcar.paquete.dominio.p
     }
 
     @Override
-    public void actualizarInformacionPaquete(Paquete paquete) {
-
+    public void actualizarInformacionPaquete(PaqueteActualizacionDto dto, UUID idPaquete) {
+        EntidadPaquete entidadPaquete = this.repositorioPaqueteJpa.findById(idPaquete).orElse(null);
+        EntidadTipoPaquete entidadTipoPaquete = this.repositorioTipoPaqueteJpa.findByNombre(dto.getTipoPaqueteNombre());
+        EntidadContenido entidadContenido = this.repositoryContenidoJpa.findById(dto.getIdContenido()).orElse(null);
+        if (entidadPaquete != null){
+            entidadPaquete.setDescripcion(dto.getDescripcion());
+            entidadPaquete.setEntidadTipoPaquete(entidadTipoPaquete);
+            entidadPaquete.setEntidadContenido(entidadContenido);
+            this.repositorioPaqueteJpa.save(entidadPaquete);
+        }
     }
 
+
     @Override
-    public Paquete consultarContenido(UUID identificador) {
+    public Paquete consultarPaquete(UUID identificador) {
         EntidadPaquete entidadPaquete = this.repositorioPaqueteJpa.findById(identificador).orElse(null);
 
         assert entidadPaquete != null;

@@ -1,5 +1,9 @@
 package co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.peso.repositorio;
 
+import co.edu.uco.burstcar.paquete.dominio.dto.PesoActualizacionDto;
+import co.edu.uco.burstcar.paquete.dominio.modelo.Contenido;
+import co.edu.uco.burstcar.paquete.dominio.modelo.MedidaPaquete;
+import co.edu.uco.burstcar.paquete.dominio.modelo.MonedaPaquete;
 import co.edu.uco.burstcar.paquete.dominio.modelo.Peso;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.contenido.entidad.EntidadContenido;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.contenido.repositorio.jpa.RepositoryContenidoJpa;
@@ -37,24 +41,39 @@ public class RepositorioPeso implements co.edu.uco.burstcar.paquete.dominio.puer
     }
 
     @Override
-    public void actualizarPesoContenido(Peso peso) {
-
+    public void actualizarPesoContenido(PesoActualizacionDto dto, UUID idPeso) {
+        EntidadPeso entidadPeso = this.repositorioPesoJpa.findById(idPeso).orElse(null);
+        EntidadContenido entidadContenido = this.repositoryContenidoJpa.findById(dto.getIdContenido()).orElse(null);
+        EntidadMedidaPaquete entidadMedidaPaquete = this.repositorioMedidaPaqueteJpa.findById(dto.getIdMedidaPaquete()).orElse(null);
+        assert entidadPeso != null;
+        entidadPeso.setValor(dto.getValor());
+        entidadPeso.setEntidadContenido(entidadContenido);
+        entidadPeso.setEntidadMedidaPaquete(entidadMedidaPaquete);
+        this.repositorioPesoJpa.save(entidadPeso);
     }
 
     @Override
     public Peso consultarPeso(UUID identificador) {
-        return null; /*repositorioPesoJpa.findById(identificador)
-                .map(entidadPeso -> mapToDTO(entidadPeso))
-                .orElseThrow(NotFoundException::new);*/
+        EntidadPeso entidadPeso = this.repositorioPesoJpa.findById(identificador).orElse(null);
+
+        assert entidadPeso != null;
+        EntidadContenido entidadContenido =
+                this.repositoryContenidoJpa.findById(entidadPeso.getEntidadContenido().getIdentificador()).orElse(null);
+        assert entidadContenido != null;
+        MonedaPaquete monedaPaquete = MonedaPaquete.nuevaMonedaPaqueteConIdentificador(entidadContenido.getEntidadMonedaPaquete().getIdentificador(),
+                entidadContenido.getEntidadMonedaPaquete().getNombreMoneda(), entidadContenido.getEntidadMonedaPaquete().getCodigoMoneda());
+        Contenido contenido = Contenido.nuevoContenidoConIdentificador(entidadContenido.getIdentificador(),
+                entidadContenido.getDescripcion(), entidadContenido.getFragil(), entidadContenido.getValorAproximado(), monedaPaquete);
+
+        EntidadMedidaPaquete entidadMedidaPaquete =
+                this.repositorioMedidaPaqueteJpa.findByAbreviatura(entidadPeso.getEntidadMedidaPaquete().getAbreviaturaMedida());
+        MedidaPaquete medidaPaquete = MedidaPaquete.nuevaMedidaConIdentificador(entidadMedidaPaquete.getIdentificador(),
+                entidadMedidaPaquete.getNombreMedida(), entidadMedidaPaquete.getAbreviaturaMedida(), entidadMedidaPaquete.getIdentificadorTipoUnidad(),
+                entidadMedidaPaquete.getNombreTipoUnidadMetrica());
+
+
+        return Peso.nuevoPesoConIdentificador(entidadPeso.getIdentificador(), entidadPeso.getValor(),
+                contenido, medidaPaquete);
     }
-
-    /*private Peso mapeo(EntidadPeso entidadPeso) {
-
-
-        Peso peso = new Peso(entidadPeso.getIdentificador(),
-                entidadPeso.getValor(), entidadPeso.getEntidadContenido() == null ? null : entidadPeso.getEntidadContenido().getIdentificador(),
-                );
-        return pesoDTO;
-    }*/
 
 }

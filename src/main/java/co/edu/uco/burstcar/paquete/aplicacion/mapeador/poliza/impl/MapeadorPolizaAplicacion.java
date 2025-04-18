@@ -23,7 +23,7 @@ public class MapeadorPolizaAplicacion implements MapeadorAplicacion<PolizaDto, P
     @Override
     public Poliza aDominio(PolizaDto dto) {
         ArrayList<Paquete> paquetes = dto.getIdentificadorPaquetes().stream()
-                .map(paqueteDto -> this.repositorioPaquete.consultarContenido(paqueteDto.getIdentificadorPaquete()))
+                .map(paqueteDto -> this.repositorioPaquete.consultarPaquete(paqueteDto.getIdentificadorPaquete()))
                 .collect(Collectors.toCollection(ArrayList::new));
 
         return Poliza.nuevaPoliza(dto.getAsegurado(), dto.getValor(),

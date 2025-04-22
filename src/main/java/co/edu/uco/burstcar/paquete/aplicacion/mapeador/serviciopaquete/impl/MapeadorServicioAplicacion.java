@@ -17,7 +17,7 @@ public class MapeadorServicioAplicacion implements MapeadorAplicacion<ServicioDt
 
     @Override
     public ServicioPaquete aDominio(ServicioDto dto) {
-        return ServicioPaquete.nuevoServicioPaquete(dto.getNombreSolicitante(),
+        return ServicioPaquete.nuevoServicioPaqueteConIdentificador(dto.getIdentificador(), dto.getNombreSolicitante(),
                 dto.getNumeroIdentificacion(), dto.getCodigoIdentificador(), dto.getTipoIdentificacion(),
                 dto.getIdentificadorEstadoServicio(), dto.getNombreEstado(), dto.getUbicacionIdentificador(),
                 dto.getLatitudServicio(), dto.getLongitudServicio(), dto.getDetalleAdicionalServicio(),

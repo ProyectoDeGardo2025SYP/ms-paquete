@@ -1,9 +1,11 @@
 package co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.paquete.repositorio;
 
 import co.edu.uco.burstcar.paquete.dominio.dto.PaqueteActualizacionDto;
+import co.edu.uco.burstcar.paquete.dominio.dto.PaqueteConsultaPorServicioDto;
 import co.edu.uco.burstcar.paquete.dominio.modelo.*;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.contenido.entidad.EntidadContenido;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.contenido.repositorio.jpa.RepositoryContenidoJpa;
+import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.monedapaquete.entidad.EntidadMonedaPaquete;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.paquete.entidad.EntidadPaquete;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.paquete.repositorio.jpa.RepositorioPaqueteJpa;
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.serviciopaquete.entidad.EntidadServicioPaquete;
@@ -12,7 +14,10 @@ import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.tipopaquete.
 import co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.tipopaquete.repositorio.jpa.RepositorioTipoPaqueteJpa;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Repository
@@ -88,4 +93,43 @@ public class RepositorioPaquete implements co.edu.uco.burstcar.paquete.dominio.p
         return Paquete.nuevoPaqueteConIdentificador(entidadPaquete.getIdentificador(), entidadPaquete.getDescripcion(), tipoPaquete, contenido, servicioPaquete);
     }
 
+    @Override
+    public List<PaqueteConsultaPorServicioDto> consultarPaquetePorServicio(UUID identificador) {
+        return this.repositorioPaqueteJpa.buscarPorServicio(identificador).stream()
+                .map(entidadPaquete -> {
+                    // Obtener tipo de paquete
+                    EntidadTipoPaquete entidadTipoPaquete = repositorioTipoPaqueteJpa.findByNombre(
+                            entidadPaquete.getEntidadTipoPaquete().getNombre());
+
+                    TipoPaquete tipoPaquete = TipoPaquete.nuevoTipoPaqueteConIdentificador(
+                            entidadTipoPaquete.getIdentificador(),
+                            entidadTipoPaquete.getDescripcion(),
+                            entidadTipoPaquete.getNombre());
+
+                    EntidadContenido entidadContenido = repositoryContenidoJpa.findById(
+                            entidadPaquete.getEntidadContenido().getIdentificador()).orElse(null);
+                    if (entidadContenido == null) return null;
+
+                    EntidadMonedaPaquete entidadMoneda = entidadContenido.getEntidadMonedaPaquete();
+                    MonedaPaquete monedaPaquete = MonedaPaquete.nuevaMonedaPaqueteConIdentificador(
+                            entidadMoneda.getIdentificador(),
+                            entidadMoneda.getNombreMoneda(),
+                            entidadMoneda.getCodigoMoneda());
+
+                    Contenido contenido = Contenido.nuevoContenidoConIdentificador(
+                            entidadContenido.getIdentificador(),
+                            entidadContenido.getDescripcion(),
+                            entidadContenido.getFragil(),
+                            entidadContenido.getValorAproximado(),
+                            monedaPaquete);
+
+                    return PaqueteConsultaPorServicioDto.consultaPorServicioDtoConIdentificador(
+                            entidadPaquete.getIdentificador(),
+                            entidadPaquete.getDescripcion(),
+                            tipoPaquete,
+                            contenido);
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
 }

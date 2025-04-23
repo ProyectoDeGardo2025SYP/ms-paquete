@@ -1,6 +1,7 @@
 package co.edu.uco.burstcar.paquete.infraestructura.salida.adaptador.peso.repositorio;
 
 import co.edu.uco.burstcar.paquete.dominio.dto.PesoActualizacionDto;
+import co.edu.uco.burstcar.paquete.dominio.dto.PesoConsultaDto;
 import co.edu.uco.burstcar.paquete.dominio.modelo.Contenido;
 import co.edu.uco.burstcar.paquete.dominio.modelo.MedidaPaquete;
 import co.edu.uco.burstcar.paquete.dominio.modelo.MonedaPaquete;
@@ -74,6 +75,21 @@ public class RepositorioPeso implements co.edu.uco.burstcar.paquete.dominio.puer
 
         return Peso.nuevoPesoConIdentificador(entidadPeso.getIdentificador(), entidadPeso.getValor(),
                 contenido, medidaPaquete);
+    }
+
+    @Override
+    public PesoConsultaDto consultarPesoPorContenido(UUID idContenido) {
+        EntidadPeso entidadPeso = this.repositorioPesoJpa.consultarPorContendio(idContenido);
+
+        assert entidadPeso != null;
+        EntidadMedidaPaquete entidadMedidaPaquete =
+                this.repositorioMedidaPaqueteJpa.findByAbreviatura(entidadPeso.getEntidadMedidaPaquete().getAbreviaturaMedida());
+        MedidaPaquete medidaPaquete = MedidaPaquete.nuevaMedidaConIdentificador(entidadMedidaPaquete.getIdentificador(),
+                entidadMedidaPaquete.getNombreMedida(), entidadMedidaPaquete.getAbreviaturaMedida(), entidadMedidaPaquete.getIdentificadorTipoUnidad(),
+                entidadMedidaPaquete.getNombreTipoUnidadMetrica());
+
+        return PesoConsultaDto.nuevoPesoConsultaDtoConIdentificador(entidadPeso.getIdentificador(),
+                entidadPeso.getValor(), medidaPaquete);
     }
 
 }

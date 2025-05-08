@@ -1,11 +1,8 @@
 package co.edu.uco.burstcar.paquete.dominio.modelo;
 
 import co.edu.uco.burstcar.paquete.dominio.validador.ValidadorDeAtibutos;
-import co.edu.uco.burstcar.paquete.dominio.validador.ValidadorDeObjetos;
-import jakarta.validation.constraints.Size;
+
 import java.util.UUID;
-import lombok.Getter;
-import lombok.Setter;
 
 
 public class MedidaPaquete extends EntidadIdentificador{

@@ -1,6 +1,6 @@
 package co.edu.uco.burstcar.paquete.dominio.modelo;
 
-import co.edu.uco.burstcar.paquete.dominio.validador.ValidadorDeObjetos;
+import co.edu.uco.burstcar.paquete.dominio.validador.ValidadorDeAtibutos;
 
 import java.util.UUID;
 
@@ -18,9 +18,9 @@ public class Peso extends EntidadIdentificador{
     }
 
     public static Peso nuevoPeso(Double valor, Contenido contenido, MedidaPaquete medidaPaquete) {
-        ValidadorDeObjetos.validarNoNulos(valor, "valor del peso");
-        ValidadorDeObjetos.validarNoNulos(contenido, "contenido");
-        ValidadorDeObjetos.validarNoNulos(medidaPaquete, "medida");
+        ValidadorDeAtibutos.validarObjetoNoNulo(valor, "valor del peso");
+        ValidadorDeAtibutos.validarObjetoNoNulo(contenido, "contenido");
+        ValidadorDeAtibutos.validarObjetoNoNulo(medidaPaquete, "medida");
         return new Peso(valor, contenido, medidaPaquete);
     }
 
@@ -32,9 +32,9 @@ public class Peso extends EntidadIdentificador{
     }
 
     public static Peso nuevoPesoConIdentificador(UUID id, Double valor, Contenido contenido, MedidaPaquete medidaPaquete) {
-        ValidadorDeObjetos.validarNoNulos(valor, "valor del peso");
-        ValidadorDeObjetos.validarNoNulos(contenido, "contenido");
-        ValidadorDeObjetos.validarNoNulos(medidaPaquete, "medida");
+        ValidadorDeAtibutos.validarObjetoNoNulo(valor, "valor del peso");
+        ValidadorDeAtibutos.validarObjetoNoNulo(contenido, "contenido");
+        ValidadorDeAtibutos.validarObjetoNoNulo(medidaPaquete, "medida");
         return new Peso(id, valor, contenido, medidaPaquete);
     }
 

@@ -1,6 +1,6 @@
 package co.edu.uco.burstcar.paquete.dominio.modelo;
 
-import co.edu.uco.burstcar.paquete.dominio.validador.ValidadorDeObjetos;
+import co.edu.uco.burstcar.paquete.dominio.validador.ValidadorDeAtibutos;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -21,10 +21,9 @@ public class Poliza extends EntidadIdentificador{
     }
 
     public static Poliza nuevaPoliza(Boolean asegurado, Double valor, MonedaPaquete monedaPaquete, ArrayList<Paquete> paquetes) {
-        ValidadorDeObjetos.validarNoNulos(asegurado, "asegurado");
-        ValidadorDeObjetos.validarNoNulos(valor, "valor");
-        ValidadorDeObjetos.validarNoNulos(monedaPaquete, "moneda");
-        ValidadorDeObjetos.validarColeccionesVacios(paquetes, "paquetes");
+        ValidadorDeAtibutos.validarObjetoNoNulo(asegurado, "asegurado");
+        ValidadorDeAtibutos.validarObjetoNoNulo(valor, "valor");
+        ValidadorDeAtibutos.validarObjetoNoNulo(monedaPaquete, "moneda");
         return new Poliza(asegurado, valor, monedaPaquete, paquetes);
     }
 
@@ -37,10 +36,9 @@ public class Poliza extends EntidadIdentificador{
     }
 
     public static Poliza nuevaPolizaConIdentificador(UUID id, Boolean asegurado, Double valor, MonedaPaquete monedaPaquete, ArrayList<Paquete> paquetes) {
-        ValidadorDeObjetos.validarNoNulos(asegurado, "asegurado");
-        ValidadorDeObjetos.validarNoNulos(valor, "valor");
-        ValidadorDeObjetos.validarNoNulos(monedaPaquete, "moneda");
-        ValidadorDeObjetos.validarColeccionesVacios(paquetes, "paquetes");
+        ValidadorDeAtibutos.validarObjetoNoNulo(asegurado, "asegurado");
+        ValidadorDeAtibutos.validarObjetoNoNulo(valor, "valor");
+        ValidadorDeAtibutos.validarObjetoNoNulo(monedaPaquete, "moneda");
         return new Poliza(id, asegurado, valor, monedaPaquete, paquetes);
     }
 

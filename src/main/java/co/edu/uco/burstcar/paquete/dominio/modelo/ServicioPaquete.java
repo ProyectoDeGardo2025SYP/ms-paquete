@@ -1,8 +1,7 @@
 package co.edu.uco.burstcar.paquete.dominio.modelo;
 
 import co.edu.uco.burstcar.paquete.dominio.validador.ValidadorDeAtibutos;
-import co.edu.uco.burstcar.paquete.dominio.validador.ValidadorDeObjetos;
-import jakarta.validation.constraints.Size;
+
 import java.util.UUID;
 
 
@@ -48,13 +47,13 @@ public class ServicioPaquete extends EntidadIdentificador{
         ValidadorDeAtibutos.validarAtributosTexto(numeroIdentificacion, "número de identificación solicitante", 12);
         ValidadorDeAtibutos.validarAtributosTexto(tipoIdentificacion, "tipo de identificación solicitante", 5);
         ValidadorDeAtibutos.validarAtributosTexto(nombreEstado, "nombre del estado del servicio", 20);
-        ValidadorDeObjetos.validarNoNulos(latitudServicio, "latitud de la ubicación de un servicio");
-        ValidadorDeObjetos.validarNoNulos(longitudServicio, "longitud de la ubicación de un servicio");
+        ValidadorDeAtibutos.validarObjetoNoNulo(latitudServicio, "latitud de la ubicación de un servicio");
+        ValidadorDeAtibutos.validarObjetoNoNulo(longitudServicio, "longitud de la ubicación de un servicio");
         ValidadorDeAtibutos.validarAtributosTexto(detalleAdicionalServicio, "detalle adicional del servicio", 100);
         ValidadorDeAtibutos.validarAtributosTexto(nombreDestinatario, "nombre del destinatario", 25);
         ValidadorDeAtibutos.validarAtributosTexto(identificacionDestinatario, "identificación del destinatario", 12);
         ValidadorDeAtibutos.validarAtributosTexto(codigoMoneda, "moneda", 3);
-        ValidadorDeObjetos.validarNoNulos(costoInicialSolicitante, "costo inicial del solicitante");
+        ValidadorDeAtibutos.validarObjetoNoNulo(costoInicialSolicitante, "costo inicial del solicitante");
         return new ServicioPaquete(nombreSolicitante, numeroIdentificacion, codigoIdentificador, tipoIdentificacion, identificadorEstadoServicio,
                 nombreEstado, ubicacionIdentificador, latitudServicio, longitudServicio, detalleAdicionalServicio, identificadorDestino,
                 nombreDestinatario, identificacionDestinatario, codigoMoneda, costoInicialSolicitante, identificadorMoneda);
@@ -86,13 +85,13 @@ public class ServicioPaquete extends EntidadIdentificador{
         ValidadorDeAtibutos.validarAtributosTexto(numeroIdentificacion, "número de identificación solicitante", 12);
         ValidadorDeAtibutos.validarAtributosTexto(tipoIdentificacion, "tipo de identificación solicitante", 5);
         ValidadorDeAtibutos.validarAtributosTexto(nombreEstado, "nombre del estado del servicio", 20);
-        ValidadorDeObjetos.validarNoNulos(latitudServicio, "latitud de la ubicación de un servicio");
-        ValidadorDeObjetos.validarNoNulos(longitudServicio, "longitud de la ubicación de un servicio");
+        ValidadorDeAtibutos.validarObjetoNoNulo(latitudServicio, "latitud de la ubicación de un servicio");
+        ValidadorDeAtibutos.validarObjetoNoNulo(longitudServicio, "longitud de la ubicación de un servicio");
         ValidadorDeAtibutos.validarAtributosTexto(detalleAdicionalServicio, "detalle adicional del servicio", 100);
         ValidadorDeAtibutos.validarAtributosTexto(nombreDestinatario, "nombre del destinatario", 25);
         ValidadorDeAtibutos.validarAtributosTexto(identificacionDestinatario, "identificación del destinatario", 12);
         ValidadorDeAtibutos.validarAtributosTexto(codigoMoneda, "moneda", 3);
-        ValidadorDeObjetos.validarNoNulos(costoInicialSolicitante, "costo inicial del solicitante");
+        ValidadorDeAtibutos.validarObjetoNoNulo(costoInicialSolicitante, "costo inicial del solicitante");
         return new ServicioPaquete(id, nombreSolicitante, numeroIdentificacion, codigoIdentificador, tipoIdentificacion, identificadorEstadoServicio,
                 nombreEstado, ubicacionIdentificador, latitudServicio, longitudServicio, detalleAdicionalServicio, identificadorDestino,
                 nombreDestinatario, identificacionDestinatario, codigoMoneda, costoInicialSolicitante, identificadorMoneda);

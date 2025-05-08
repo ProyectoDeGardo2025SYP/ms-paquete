@@ -3,11 +3,6 @@ package co.edu.uco.burstcar.paquete.dominio.validador;
 import java.util.List;
 
 public class ValidadorDeAtibutos {
-
-    private static final String PATTERN = "^(?=.*\\d)(?=.*[\\u0021-\\u002b\\u003c-\\u0040])(?=.*[A-Z])(?=.*[a-z])\\S{8,16}";
-    private static final String PATTERN_NUMBER = "[0-9]*";
-    private static final String PATTERN_DECIMAL = "^-?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$";
-
     private ValidadorDeAtibutos() {
     }
 
@@ -37,32 +32,9 @@ public class ValidadorDeAtibutos {
         }
     }
 
-    private static boolean acceptancePatternNumber(String valor, String pattern) {
-        return valor.matches(pattern);
-    }
-
-    private static boolean acceptancePatternDecimal(String valor, String pattern) {
-        return valor.matches(pattern);
-    }
-
-    public static void sizePassword(String valor, String message)
-    {
-        if(!(valor.length()>=8 && valor.length()<=16))
-        {
-            throw new IllegalArgumentException(message);
-        }
-    }
-
-    private static boolean acceptancePatternPassword(String data, String pattern)
-    {
-        return data.matches(pattern);
-    }
-
-    public static void specialCharactersPassword(String password, String message)
-    {
-        if(!acceptancePatternPassword(password, PATTERN))
-        {
-            throw new IllegalArgumentException(message);
+    public static void validarObjetoNoNulo(Object valor, String nombreAtributo) {
+        if(valor == null) {
+            throw new IllegalArgumentException("El atributo" + nombreAtributo +" no puede estar nulo");
         }
     }
 }

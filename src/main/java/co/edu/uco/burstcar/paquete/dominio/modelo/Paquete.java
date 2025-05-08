@@ -1,8 +1,7 @@
 package co.edu.uco.burstcar.paquete.dominio.modelo;
 
 import co.edu.uco.burstcar.paquete.dominio.validador.ValidadorDeAtibutos;
-import co.edu.uco.burstcar.paquete.dominio.validador.ValidadorDeObjetos;
-import jakarta.validation.constraints.Size;
+
 import java.util.UUID;
 
 
@@ -21,9 +20,9 @@ public class Paquete extends EntidadIdentificador{
 
     public static Paquete nuevoPaquete(String descripcion, TipoPaquete tipoPaquete, Contenido contenido, ServicioPaquete servicioPaquete) {
         ValidadorDeAtibutos.validarAtributosTexto(descripcion, "descripción del paquete", 150);
-        ValidadorDeObjetos.validarNoNulos(tipoPaquete, "tipo de paquete");
-        ValidadorDeObjetos.validarNoNulos(contenido, "contenido");
-        ValidadorDeObjetos.validarNoNulos(servicioPaquete, "servicio asociado al paquete");
+        ValidadorDeAtibutos.validarObjetoNoNulo(tipoPaquete, "tipo de paquete");
+        ValidadorDeAtibutos.validarObjetoNoNulo(contenido, "contenido");
+        ValidadorDeAtibutos.validarObjetoNoNulo(servicioPaquete, "servicio asociado al paquete");
         return new Paquete(descripcion, tipoPaquete, contenido, servicioPaquete);
     }
 
@@ -37,9 +36,9 @@ public class Paquete extends EntidadIdentificador{
 
     public static Paquete nuevoPaqueteConIdentificador(UUID id, String descripcion, TipoPaquete tipoPaquete, Contenido contenido, ServicioPaquete servicioPaquete) {
         ValidadorDeAtibutos.validarAtributosTexto(descripcion, "descripción del paquete", 150);
-        ValidadorDeObjetos.validarNoNulos(tipoPaquete, "tipo de paquete");
-        ValidadorDeObjetos.validarNoNulos(contenido, "contenido");
-        ValidadorDeObjetos.validarNoNulos(servicioPaquete, "servicio asociado al paquete");
+        ValidadorDeAtibutos.validarObjetoNoNulo(tipoPaquete, "tipo de paquete");
+        ValidadorDeAtibutos.validarObjetoNoNulo(contenido, "contenido");
+        ValidadorDeAtibutos.validarObjetoNoNulo(servicioPaquete, "servicio asociado al paquete");
         return new Paquete(id, descripcion, tipoPaquete, contenido, servicioPaquete);
     }
 
